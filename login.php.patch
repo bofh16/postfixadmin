@@ -1,0 +1,25 @@
+--- login.php.org       2017-11-25 17:38:25.822928478 +0200
++++ login.php   2017-11-25 17:41:31.787164709 +0200
+@@ -42,14 +42,19 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"
+     $fUsername = trim(safepost('fUsername'));
+     $fPassword = safepost('fPassword');
+ 
++    $secret = "GOOGLE_SECRET_KEY";
++    $response = $_POST['g-recaptcha-response'];
++    $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secret.'&response='.$response);
++    $verifyResponse = json_decode($verifyResponse);
++
+     if ( $lang != check_language(0) ) { # only set cookie if language selection was changed
+         setcookie('lang', $lang, time() + 60*60*24*30); # language cookie, lifetime 30 days
+         # (language preference cookie is processed even if username and/or password are invalid)
+     }
+ 
+     $h = new AdminHandler;
+-    if ( $h->login($fUsername, $fPassword) ) {
+-        session_regenerate_id();
++    if ( ($h->login($fUsername, $fPassword)) && ($verifyResponse->success) ) {
++       session_regenerate_id();
+         $_SESSION['sessid'] = array();
+         $_SESSION['sessid']['roles'] = array();
+         $_SESSION['sessid']['roles'][] = 'admin';
+
