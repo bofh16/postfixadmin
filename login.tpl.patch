@@ -1,0 +1,24 @@
+--- login.tpl.org       2017-11-25 17:41:41.727391112 +0200
++++ login.tpl   2017-11-26 08:26:35.642578726 +0200
+@@ -28,15 +28,18 @@
+        <tr>
+                <td colspan="2"><a href="users/">{$PALANG.pLogin_login_users}</a></td>
+        </tr>
++       <tr>
++               <td><form action="" method="POST"></td>
++               <td><div class="g-recaptcha" data-sitekey="GOOGLE_SITE_KEY"></div></td>
++               <td><script src="https://www.google.com/recaptcha/api.js" async defer></script></td>
++               <td></form></td>
++       </tr>
+ {/if}
+ </table>
+ </form>
+ {literal}
+ <script type="text/javascript">
+-<!--
+        document.frmLogin.fUsername.focus();
+-// -->
+ </script>
+ {/literal}
+ </div>
+-
